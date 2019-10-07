@@ -1,7 +1,7 @@
 """
 Platformer Game
 """
-import open_color, arcade
+import open_color, arcade, os, ctypes
 
 # Constants
 SCREEN_WIDTH = 800
@@ -9,13 +9,13 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Tiled Map Editor Test"
 
 # Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 0.5
+CHARACTER_SCALING = 0.25
 TILE_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 64
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 2
+PLAYER_MOVEMENT_SPEED = 4
 GRAVITY = 1
 PLAYER_JUMP_SPEED = 15
 
@@ -36,7 +36,8 @@ class MyGame(arcade.Window):
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
+        file_path =os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
         # These are 'lists' that keep track of our sprites. Each sprite should
         # go into a list.
         self.coin_list = None
@@ -142,6 +143,9 @@ class MyGame(arcade.Window):
 
     def update(self, delta_time):
         """ Movement and game logic """
+
+        if self.score == 3:
+            ctypes.windll.user32.MessageBoxW(0, "You Win!", "You Win!", 1)
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
